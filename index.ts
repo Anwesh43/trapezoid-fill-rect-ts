@@ -3,7 +3,7 @@ const h : number = window.innerHeight
 const parts : number = 4  
 const scGap : number = 0.02 / parts 
 const strokeFactor : number = 90 
-const sizeFactor : number = 3.9 
+const sizeFactor : number = 1.9 
 const delay : number = 20 
 const backColor : string = "#bdbdbd"
 const colors : Array<string> = [
@@ -32,6 +32,9 @@ class ScaleUtil {
 class DrawingUtil {
 
     static drawLine(context : CanvasRenderingContext2D, x1 : number, y1 : number, x2 : number, y2 : number) {
+        if (x1 == x2 && y1 == y2) {
+            return
+        }
         context.beginPath()
         context.moveTo(x1, y1)
         context.lineTo(x2, y2)
@@ -58,10 +61,10 @@ class DrawingUtil {
         const sf4 : number = ScaleUtil.divideScale(sf, 3, parts)
         context.save()
         context.translate(w / 2, h)
-        DrawingUtil.drawLine(context, -size / 2, 0, -size / 4, -size / 2)
-        DrawingUtil.drawLine(context, -size / 4, -size / 2, size / 4, -size / 2)
-        DrawingUtil.drawLine(context, size / 4, -size / 2, 0, size / 2)
-        DrawingUtil.drawTrapezoidFillPath(context, size, scale)
+        DrawingUtil.drawLine(context, -size / 2, 0, -size / 2 + (size / 4) * sf1, -size * 0.5 * sf1)
+        DrawingUtil.drawLine(context, -size / 4, -size / 2, -size / 4 + (size / 2) * sf2, -size / 2)
+        DrawingUtil.drawLine(context, size / 4, -size / 2, size / 4 + (size / 4) * sf3, -size / 2 + (size / 2) * sf3)
+        DrawingUtil.drawTrapezoidFillPath(context, size, sf4)
         context.restore()
     }
 
