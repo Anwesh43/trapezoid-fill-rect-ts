@@ -213,3 +213,25 @@ class TrapezoidFillRect {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    tfr : TrapezoidFillRect = new TrapezoidFillRect()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.tfr.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.tfr.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.tfr.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
